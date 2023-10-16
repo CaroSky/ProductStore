@@ -10,11 +10,30 @@
 	<title>Product catalogue</title>
 </head>
 <body>
-	<ul>
-		@foreach (Product p in Model)
-		{
-			<li>@p.Name</li>
-		}
-	</ul>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Category</th>
+                <th>Manufacturer</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Product p in Model)
+            {
+                string description = p?.Description ?? "";
+                decimal? price = p?.Price ?? 0;
+                <tr>
+                    <td>@p.Name</td>
+                    <td>@description</td>
+                    <td>@price</td>
+                    <td>@p.Category.Name</td>
+                    <td>@p.Manufacturer.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </body>
 </html>

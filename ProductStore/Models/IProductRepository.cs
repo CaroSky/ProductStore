@@ -1,10 +1,12 @@
 ﻿using ProductStore.Models.Entities;
+using ProductStore.Models.ViewModels;
 
 namespace ProductStore.Models
 {
 	public interface IProductRepository
 	{
-		IEnumerable<Product> GetAll();
+        ProductsEditViewModel GetProductsEditViewModel();
+        IEnumerable<Product> GetAll();
 		void Save(Product product);
 	}
 }

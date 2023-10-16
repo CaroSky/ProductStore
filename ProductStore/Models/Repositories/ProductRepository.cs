@@ -1,5 +1,7 @@
 ﻿using ProductStore.Data;
 using ProductStore.Models.Entities;
+using Microsoft.EntityFrameworkCore;
+using ProductStore.Models.ViewModels;
 
 namespace ProductStore.Models.Repositories
 {
@@ -12,12 +14,29 @@ namespace ProductStore.Models.Repositories
 		}
 		public IEnumerable<Product> GetAll()
 		{
-			var products = db.Product;
+			var products = db.Product
+				.Include(cat => cat.Category)
+				.Include(man => man.Manufacturer)
+				.ToList();
 			return products;
 		}
 		public void Save(Product product)
 		{
-			throw new NotImplementedException();
-		}
-	}
+            db.Product.Add(product);
+
+            db.SaveChanges();
+        }
+        public ProductsEditViewModel GetProductsEditViewModel()
+        {
+            var categories = db.Category.ToList();
+            var manufacturers = db.Manufacturer.ToList();
+            var productsEditViewModel = new ProductsEditViewModel
+            {
+                Categories = categories,
+                Manufacturers = manufacturers
+            };
+
+            return productsEditViewModel;
+        }
+    }
 }

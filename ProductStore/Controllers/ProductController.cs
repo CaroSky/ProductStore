@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc; 
 using ProductStore.Models.Entities;
 using ProductStore.Models;
-using ProductStore.Models.Repositories;
+using ProductStore.Models.ViewModels;
 
 namespace ProductStore.Controllers
 {
@@ -25,16 +25,27 @@ namespace ProductStore.Controllers
 		// GET: Product/Create
 		public ActionResult Create()
 		{
-			return View();
+            var product = repository.GetProductsEditViewModel();
+            return View();
 		}
 
 		// POST: Product/Create
 		[HttpPost]
-		public ActionResult Create(Product product)
+		public ActionResult Create(ProductsEditViewModel product)
 		{
 			try
 			{
-				repository.Save(product);
+                var newProduct = new Product
+                {
+                    Name = product.Name,
+                    Description = product.Description,
+                    Price = product.Price,
+                    CategoryId = product.CategoryId,
+                    ManufacturerId = product.ManufacturerId
+                };
+
+                // Call the Save method in your repository to save the product
+                repository.Save(newProduct);
 				return RedirectToAction("Index");
 			}
 			catch

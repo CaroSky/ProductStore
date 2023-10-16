@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProductStore.Data;
 
@@ -11,9 +12,11 @@ using ProductStore.Data;
 namespace ProductStore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231016164045_AddDescriptionsToProducts")]
+    partial class AddDescriptionsToProducts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -176,10 +179,10 @@ namespace ProductStore.Migrations
                         {
                             ProductId = 6,
                             CategoryId = 1,
-                            Description = "Bil",
+                            Description = "",
                             ManufacturerId = 2,
                             Name = "Produkt 1",
-                            Price = 999995m
+                            Price = 99.99m
                         },
                         new
                         {

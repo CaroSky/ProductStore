@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ProductStore.Controllers;
 using ProductStore.Models;
 using ProductStore.Models.Entities;
+using ProductStore.Models.ViewModels;
 using ProductStore.Models.Repositories;
 using Moq;
 using System.Collections.Generic;
@@ -21,12 +22,12 @@ namespace ProductUnitTest
 			_repository = new Mock<IProductRepository>();
 			List<Product> fakeProducts = new List<Product>
 			{
-					new Product {Name="Hammer", Price=121.50m, Category="Verktøy"},
-					new Product {Name="Vinkelsliper", Price=1520.00m, Category ="Verktøy"},
-					new Product {Name="Melk", Price=14.50m, Category ="Dagligvarer"},
-					new Product {Name="Kjøttkaker", Price=32.00m, Category ="Dagligvarer"},
-					new Product {Name="Brød", Price=25.50m, Category ="Dagligvarer"}
-			};
+				new Product { Name = "Hammer", Price = 121.50m, Category = new Category { CategoryId = 1, Name = "Verktøy" } },
+				new Product { Name = "Vinkelsliper", Price = 1520.00m, Category = new Category { CategoryId = 1, Name = "Verktøy" } },
+				new Product { Name = "Melk", Price = 14.50m, Category = new Category { CategoryId = 2, Name = "Dagligvarer" } },
+				new Product { Name = "Kjøttkaker", Price = 32.00m, Category = new Category { CategoryId = 2, Name = "Dagligvarer" } },
+				new Product { Name = "Brød", Price = 25.50m, Category = new Category { CategoryId = 2, Name = "Dagligvarer" } }
+            };
 			_repository.Setup(x => x.GetAll()).Returns(fakeProducts);
 			var controller = new ProductController(_repository.Object);
 
@@ -54,19 +55,25 @@ namespace ProductUnitTest
 			Assert.IsNotNull(result, "View Result is null");
 		}
 
-		[TestMethod]
-		public void SaveIsCalledWhenProductIsCreated()
-		{
-			// Arrange
-			_repository = new Mock<IProductRepository>();
-			var controller = new ProductController(_repository.Object);
-			var newProduct = new Product { Name = "New Product", Price = 50.00m, Category = "Test Category" };
+        [TestMethod]
+        public void SaveIsCalledWhenProductIsCreated()
+        {
+            // Arrange
+            _repository = new Mock<IProductRepository>();
+            var controller = new ProductController(_repository.Object);
+            var newProductViewModel = new ProductsEditViewModel
+            {
+                Name = "New Product",
+                Price = 50.00m,
+                CategoryId = 1,  // Assign the appropriate CategoryId
+                ManufacturerId = 1  // Assign the appropriate ManufacturerId
+            };
 
-			// Act
-			controller.Create(newProduct);
+            // Act
+            controller.Create(newProductViewModel);
 
-			// Assert
-			_repository.Verify(repo => repo.Save(newProduct), Times.Once);
-		}
-	}
+            // Assert
+            _repository.Verify(repo => repo.Save(It.IsAny<Product>()), Times.Once);
+        }
+    }
 }

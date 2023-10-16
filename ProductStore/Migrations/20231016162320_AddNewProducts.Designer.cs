@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProductStore.Data;
 
@@ -11,9 +12,11 @@ using ProductStore.Data;
 namespace ProductStore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231016162320_AddNewProducts")]
+    partial class AddNewProducts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -131,7 +134,6 @@ namespace ProductStore.Migrations
                         {
                             ProductId = 1,
                             CategoryId = 1,
-                            Description = "",
                             ManufacturerId = 1,
                             Name = "Hammer",
                             Price = 121.50m
@@ -140,7 +142,6 @@ namespace ProductStore.Migrations
                         {
                             ProductId = 2,
                             CategoryId = 1,
-                            Description = "",
                             ManufacturerId = 1,
                             Name = "Vinkelsliper",
                             Price = 1520.00m
@@ -149,7 +150,6 @@ namespace ProductStore.Migrations
                         {
                             ProductId = 3,
                             CategoryId = 3,
-                            Description = "",
                             ManufacturerId = 2,
                             Name = "Volvo XC90",
                             Price = 990000m
@@ -158,7 +158,6 @@ namespace ProductStore.Migrations
                         {
                             ProductId = 4,
                             CategoryId = 3,
-                            Description = "",
                             ManufacturerId = 2,
                             Name = "Volvo XC60",
                             Price = 620000m
@@ -167,7 +166,6 @@ namespace ProductStore.Migrations
                         {
                             ProductId = 5,
                             CategoryId = 2,
-                            Description = "",
                             ManufacturerId = 1,
                             Name = "Brød",
                             Price = 25.50m
@@ -176,16 +174,14 @@ namespace ProductStore.Migrations
                         {
                             ProductId = 6,
                             CategoryId = 1,
-                            Description = "Bil",
                             ManufacturerId = 2,
                             Name = "Produkt 1",
-                            Price = 999995m
+                            Price = 99.99m
                         },
                         new
                         {
                             ProductId = 7,
                             CategoryId = 2,
-                            Description = "",
                             ManufacturerId = 1,
                             Name = "Produkt 2",
                             Price = 49.99m
@@ -194,7 +190,6 @@ namespace ProductStore.Migrations
                         {
                             ProductId = 8,
                             CategoryId = 3,
-                            Description = "",
                             ManufacturerId = 2,
                             Name = "Produkt 3",
                             Price = 199.99m
