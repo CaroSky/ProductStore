@@ -10,6 +10,9 @@ namespace ProductStore.Data
 		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options):base(options)
 		{ }
 		public DbSet<Product> Product { get; set; }
+		public DbSet<Category> Category { get; set; }
+		public DbSet<Manufacturer> Manufacturer { get; set; }
+
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);

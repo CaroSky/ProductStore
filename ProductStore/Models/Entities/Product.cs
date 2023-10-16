@@ -9,6 +9,10 @@ namespace ProductStore.Models.Entities
         public string? Description { get; set; }
 		[Column(TypeName = "decimal(8, 2)")]
         public decimal? Price { get; set; }
-        public string Category { get; set; }
-    }
+		//Navigational Properties
+		public int ManufacturerId { get; set; }
+		public Manufacturer Manufacturer { get; set; }
+		public int CategoryId { get; set; }
+		public Category Category { get; set; }
+	}
 }
