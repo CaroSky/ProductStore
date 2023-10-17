@@ -75,5 +75,20 @@ namespace ProductUnitTest
             // Assert
             _repository.Verify(repo => repo.Save(It.IsAny<Product>()), Times.Once);
         }
+        [TestMethod]
+        public void CreateGet_ReturnsView()
+        {
+            // Arrange
+            var mockRepository = new Mock<IProductRepository>();
+            var controller = new ProductController(mockRepository.Object);
+
+            // Act
+            var result = controller.Create();
+
+            // Assert
+            Assert.IsNotNull(result, "View Result is null");
+            Assert.IsInstanceOfType(result, typeof(ViewResult));
+        }
+
     }
 }

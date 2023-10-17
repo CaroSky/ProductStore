@@ -26,6 +26,36 @@ namespace ProductStore.Models.Repositories
 
             db.SaveChanges();
         }
+        public Product GetProductById(int? id)
+        {
+            if (id == null)
+            {
+                throw new ArgumentNullException(nameof(id));
+            }
+
+            return db.Product
+                .Include(cat => cat.Category)
+                .Include(man => man.Manufacturer)
+                .FirstOrDefault(p => p.ProductId == id);
+        }
+
+        public void Edit(Product product)
+        {
+
+            db.Product.Update(product);
+
+            db.SaveChanges();
+        }
+        public void Delete(int id)
+        {
+            var product = GetProductById(id);
+
+            if (product != null)
+            {
+                db.Product.Remove(product);
+                db.SaveChanges();
+            }
+        }
         public ProductsEditViewModel GetProductsEditViewModel()
         {
             var categories = db.Category.ToList();
@@ -38,5 +68,6 @@ namespace ProductStore.Models.Repositories
 
             return productsEditViewModel;
         }
+
     }
 }

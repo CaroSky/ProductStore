@@ -41,6 +41,8 @@
                 <th>Price</th>
                 <th>Category</th>
                 <th>Manufacturer</th>
+                <th>Edit</th>
+                <th>Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -54,6 +56,17 @@
                     <td>@price</td>
                     <td>@p.Category.Name</td>
                     <td>@p.Manufacturer.Name</td>
+                    <td>
+                        <form asp-controller="Product" asp-action="Edit" asp-route-id="@p.ProductId" method="get">
+                            <button type="submit" class="btn btn-primary">Edit</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form asp-controller="Product" asp-action="Delete" method="post">
+                            <input type="hidden" name="id" value="@p.ProductId" />
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this product?')">Delete</button>
+                        </form>
+                    </td>
                 </tr>
             }
         </tbody>

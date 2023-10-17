@@ -1,15 +1,18 @@
 ﻿@model ProductStore.Models.ViewModels.ProductsEditViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
 }
-<div class="text-center">
-    <h1>Create</h1>
 
-    <h4 class ="text-center">Product</h4>
-<hr />
-<partial name="CreateEditPartialView"/>
+<div class="text-center">
+    <h1>Edit</h1>
+
+    <h4 class="text-center">Product</h4> 
+    <hr />
+
+    <partial name="CreateEditPartialView" />
 </div>
+
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
