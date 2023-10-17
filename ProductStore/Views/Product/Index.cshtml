@@ -1,13 +1,36 @@
 ﻿@using ProductStore.Models.Entities
 @model IEnumerable<Product>
 @{
-	Layout = null;
+    ViewData["Title"] = "Index";
 }
 <!DOCTYPE html>
 <html>
 <head>
 	<meta name="viewport" content="width=device-width" />
 	<title>Product catalogue</title>
+        <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            text-align: left;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        tr {
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
     <table>

@@ -29,11 +29,11 @@ namespace ProductStore.Models.Repositories
         public ProductsEditViewModel GetProductsEditViewModel()
         {
             var categories = db.Category.ToList();
-            var manufacturers = db.Manufacturer.ToList();
+            var manufacturer = db.Manufacturer.ToList();
             var productsEditViewModel = new ProductsEditViewModel
             {
                 Categories = categories,
-                Manufacturers = manufacturers
+                Manufacturer = manufacturer
             };
 
             return productsEditViewModel;
