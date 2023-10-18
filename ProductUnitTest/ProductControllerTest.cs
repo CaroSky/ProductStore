@@ -7,11 +7,14 @@ using ProductStore.Models.ViewModels;
 using ProductStore.Models.Repositories;
 using Moq;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+
 
 
 namespace ProductUnitTest
 {
-	[TestClass]
+    [TestClass]
 	public class ProductControllerTest
 	{
 		private Mock<IProductRepository> _repository;
@@ -89,6 +92,98 @@ namespace ProductUnitTest
             Assert.IsNotNull(result, "View Result is null");
             Assert.IsInstanceOfType(result, typeof(ViewResult));
         }
+        [TestMethod]
+        public void RedirectToActionWhenProductCreatedAndModelIsValid()
+        {
+            // Arrange
+            var httpContext = new DefaultHttpContext();
+            var tempData = new TempDataDictionary(httpContext, Mock.Of<ITempDataProvider>());
+            var mockRepository = new Mock<IProductRepository>();
+            var controller = new ProductController(mockRepository.Object);
+            controller.TempData = tempData;
+
+            var newProductViewModel = new ProductsEditViewModel
+            {
+                Name = "New Product",
+                Price = 20,
+                Description = "Description",
+                CategoryId = 1,
+                ManufacturerId = 1,
+            };
+            // Act
+            ActionResult result = controller.Create(newProductViewModel);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
+            var redirectResult = (RedirectToActionResult)result;
+            Assert.AreEqual("Index", redirectResult.ActionName);
+            Assert.AreEqual("New Product har blitt opprettet", controller.TempData["message"]);
+        }
+        
+        [TestMethod]
+        public void DeleteConfirmedRedirectsToIndexWhenValidProductId()
+        {
+            // Arrange
+            var httpContext = new DefaultHttpContext();
+            var tempData = new TempDataDictionary(httpContext, Mock.Of<ITempDataProvider>());
+            var mockRepository = new Mock<IProductRepository>();
+            var controller = new ProductController(mockRepository.Object);
+            controller.TempData = tempData;
+
+            var existingProductId = 1;
+
+            mockRepository.Setup(repo => repo.Delete(existingProductId));
+
+            // Act
+            ActionResult result = controller.DeleteConfirmed(existingProductId);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
+            var redirectResult = (RedirectToActionResult)result;
+            Assert.AreEqual("Index", redirectResult.ActionName);
+        }
+        [TestMethod]
+        public void EditPostRedirectsToIndexWhenModelIsValid()
+        {
+            // Arrange
+            var httpContext = new DefaultHttpContext();
+            var tempData = new TempDataDictionary(httpContext, Mock.Of<ITempDataProvider>());
+            var mockRepository = new Mock<IProductRepository>();
+            var controller = new ProductController(mockRepository.Object);
+            controller.TempData = tempData;
+
+            var existingProductId = 1;
+            var productViewModel = new ProductsEditViewModel
+            {
+                ProductId = existingProductId,
+                Name = "Updated Product Name",
+                Description = "Updated Description",
+                Price = 25,
+                CategoryId = 2,
+                ManufacturerId = 3,
+            };
+
+            mockRepository.Setup(repo => repo.GetProductById(existingProductId))
+                          .Returns(new Product
+                          {
+                              ProductId = existingProductId,
+                              Name = "Original Product Name",
+                              Description = "Original Description",
+                              Price = 19.99m,
+                              CategoryId = 1,
+                              ManufacturerId = 1,
+                          });
+
+            // Act
+            ActionResult result = controller.Edit(existingProductId, productViewModel);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
+            var redirectResult = (RedirectToActionResult)result;
+            Assert.AreEqual("Index", redirectResult.ActionName);
+        }
+
 
     }
 }
+
